@@ -76,9 +76,7 @@ leg2 = `${capitalize(leg2Side)} ${q} mt Al USD ppt ${pptFix}`;
 
 const result = `LME Request: ${leg1} and ${leg2} against`;
 if (outputEl) outputEl.textContent = result;
-
-const finalOutput = document.getElementById('final-output');
-if (!finalOutput.value.includes(result)) finalOutput.value += result + "\n";
+updateFinalOutput();
 } catch (e) {
 console.error("Error generating request:", e);
 if (outputEl) outputEl.textContent = e.message;
