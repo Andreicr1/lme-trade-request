@@ -3,6 +3,7 @@ const CACHE_NAME = 'lme-cache';
 const FILES_TO_CACHE = [
   'index.html',
   'main.js',
+  'tailwind.min.css',
   'manifest.json',
   'service-worker.js'
 ];
