@@ -5,7 +5,13 @@ Tailwind is bundled locally as `tailwind.min.css`, so the interface works withou
 
 ## Running the app
 
-Because the page registers a service worker, it needs to be served over HTTP. You can use any simple static server. Examples:
+Because the page registers a service worker, it needs to be served over HTTP. You can use any simple static server. The repository includes an npm script for convenience:
+
+```bash
+npm start
+```
+
+This command launches `http-server` on port 8000. If you prefer you can use any other static server. Examples:
 
 ```bash
 # Using Python

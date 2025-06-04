@@ -4,7 +4,8 @@
   "description": "LME Trade Request Generator",
   "main": "main.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "npx http-server -p 8000"
   },
   "devDependencies": {
     "jest": "^29.6.1",
