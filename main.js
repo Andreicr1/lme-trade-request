@@ -260,11 +260,19 @@ div.className = 'trade-block';
   renumberTrades();
 }
 
-window.onload = () => {
-  loadHolidayData().finally(() => addTrade());
-};
-if ('serviceWorker' in navigator) {
-navigator.serviceWorker.register("service-worker.js")
-.catch(err => console.error("Service Worker registration failed:", err));
+// When running in a browser, initialise the UI
+if (typeof module === 'undefined' || !module.exports) {
+  window.onload = () => {
+    loadHolidayData().finally(() => addTrade());
+  };
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register("service-worker.js")
+      .catch(err => console.error("Service Worker registration failed:", err));
+  }
+}
+
+// Export functions for Node.js testing
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { getSecondBusinessDay, getFixPpt, generateRequest };
 }
 
