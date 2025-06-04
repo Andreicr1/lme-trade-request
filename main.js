@@ -224,11 +224,14 @@ div.className = 'trade-block';
   const fixDisplay = document.getElementById(`fixDisplay-${index}`);
   if (fixBtn && fixInput) {
     fixBtn.addEventListener('click', () => {
-      if (fixInput.showPicker) fixInput.showPicker();
-      else {
+      fixInput.style.pointerEvents = 'auto';
+      if (fixInput.showPicker) {
+        fixInput.showPicker();
+      } else {
         fixInput.focus();
         fixInput.click();
       }
+      fixInput.style.pointerEvents = 'none';
     });
   }
   if (fixInput && fixDisplay) {
