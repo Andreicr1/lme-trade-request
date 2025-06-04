@@ -89,7 +89,8 @@ const year = parseInt(document.getElementById(`year1-${index}`).value);
 const leg2Side = document.querySelector(`input[name='side2-${index}']:checked`).value;
 const leg2Type = document.getElementById(`type2-${index}`).value;
 const fixInput = document.getElementById(`fixDate-${index}`);
-const dateFix = fixInput.value.trim();
+const dateFixRaw = fixInput.value;
+const dateFix = dateFixRaw ? formatDateEU(new Date(dateFixRaw)) : '';
 fixInput.classList.remove('border-red-500');
 const useSamePPT = document.getElementById(`samePpt-${index}`).checked;
 const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
@@ -137,6 +138,8 @@ else input.value = input.defaultValue;
 document.getElementById(`output-${index}`).textContent = '';
 updateFinalOutput();
 syncLegSides(index);
+const disp = document.getElementById(`fixDisplay-${index}`);
+if (disp) disp.textContent = '';
 }
 
 function removeTrade(index) {
@@ -200,9 +203,9 @@ el.name = el.name.replace(/-\d+$/, `-${index}`);
 clone.querySelector("[id^='output-']").id = `output-${index}`;
  const title = clone.querySelector('.trade-title');
  if (title) title.textContent = `Trade ${index + 1}`;
-clone.querySelector("button[name='generate']").setAttribute('onclick', `generateRequest(${index})`);
-clone.querySelector("button[name='clear']").setAttribute('onclick', `clearTrade(${index})`);
-clone.querySelector("button[name='remove']").setAttribute('onclick', `removeTrade(${index})`);
+  clone.querySelector("button[name='generate']").setAttribute('onclick', `generateRequest(${index})`);
+  clone.querySelector("button[name='clear']").setAttribute('onclick', `clearTrade(${index})`);
+  clone.querySelector("button[name='remove']").setAttribute('onclick', `removeTrade(${index})`);
 const div = document.createElement('div');
 div.id = `trade-${index}`;
 div.className = 'trade-block';
@@ -212,9 +215,30 @@ div.className = 'trade-block';
   populateYearOptions(`year1-${index}`, currentYear, 3);
   populateYearOptions(`year2-${index}`, currentYear, 3);
   document.querySelectorAll(`input[name='side1-${index}']`).forEach(r => {
-r.addEventListener('change', () => syncLegSides(index));
-});
-syncLegSides(index);
+  r.addEventListener('change', () => syncLegSides(index));
+  });
+  syncLegSides(index);
+
+  const fixInput = document.getElementById(`fixDate-${index}`);
+  const fixBtn = document.getElementById(`fixBtn-${index}`);
+  const fixDisplay = document.getElementById(`fixDisplay-${index}`);
+  if (fixBtn && fixInput) {
+    fixBtn.addEventListener('click', () => {
+      if (fixInput.showPicker) fixInput.showPicker();
+      else {
+        fixInput.focus();
+        fixInput.click();
+      }
+    });
+  }
+  if (fixInput && fixDisplay) {
+    fixInput.addEventListener('change', () => {
+      fixDisplay.textContent = fixInput.value ? formatDateEU(new Date(fixInput.value)) : '';
+    });
+    if (fixInput.value) {
+      fixDisplay.textContent = formatDateEU(new Date(fixInput.value));
+    }
+  }
 }
 
 window.onload = () => addTrade();
