@@ -17,20 +17,6 @@
       border: 1px solid #d1d5db; /* gray-300 */
       border-radius: 0.25rem;
     }
-    .hidden-date {
-      position: absolute;
-      top: -5px;
-      left: 5px;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      pointer-events: none;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-    .hidden-date::-webkit-calendar-picker-indicator {
-      display: none;
-    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen p-6">
@@ -103,10 +89,7 @@
           
           <div class="flex items-center gap-2 mr-2">
             <span>Fixing Date:</span>
-            <div class="relative inline-block">
-              <input type="text" id="fixDateDisplay-0" class="form-control w-24" placeholder="dd-mm-yy" />
-              <input type="date" id="fixDate-0" class="hidden-date" />
-            </div>
+            <input type="date" id="fixDate-0" class="form-control w-24" />
             <span id="fixDisplay-0" class="ml-1"></span>
           </div>
           <label><input type="checkbox" id="samePpt-0" /> Use AVG PPT Date</label>
