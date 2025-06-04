@@ -17,6 +17,11 @@ npx http-server -p 8000
 After the server starts, open `http://localhost:8000/index.html` in a modern browser.
 Make sure to visit the full path to `index.html` (not just `/`) because the service worker only caches that file.
 
+### Input validation
+
+Enter quantities as finite positive numbers. Values of zero or negative amounts
+will trigger an error message.
+
 ## Building
 
 No build step is required. The repository only contains static files (`index.html`, `main.js`, `manifest.json` and `service-worker.js`). If you modify the code you simply refresh the browser to see the changes.

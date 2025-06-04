@@ -81,13 +81,19 @@ function generateRequest(index) {
 const outputEl = document.getElementById(`output-${index}`);
 try {
 const qtyInput = document.getElementById(`qty-${index}`);
-const q = parseFloat(qtyInput.value);
-if (!isFinite(q)) {
-qtyInput.classList.add('border-red-500');
-if (outputEl) outputEl.textContent = 'Please enter a valid quantity.';
-qtyInput.focus();
-return;
-}
+  const q = parseFloat(qtyInput.value);
+  if (!isFinite(q)) {
+    qtyInput.classList.add('border-red-500');
+    if (outputEl) outputEl.textContent = 'Please enter a valid quantity.';
+    qtyInput.focus();
+    return;
+  }
+  if (q <= 0) {
+    qtyInput.classList.add('border-red-500');
+    if (outputEl) outputEl.textContent = 'Quantity must be greater than zero.';
+    qtyInput.focus();
+    return;
+  }
 qtyInput.classList.remove('border-red-500');
 const leg1Side = document.querySelector(`input[name='side1-${index}']:checked`).value;
 const leg1Type = document.getElementById(`type1-${index}`)?.value || 'AVG';
