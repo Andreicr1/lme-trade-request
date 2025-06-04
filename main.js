@@ -77,6 +77,14 @@ function populateYearOptions(selectId, start, count) {
   }
 }
 
+function parseInputDate(value) {
+  if (!value) return null;
+  const parts = value.split('-').map(Number);
+  if (parts.length !== 3) return null;
+  const [y, m, d] = parts;
+  return new Date(y, m - 1, d);
+}
+
 function generateRequest(index) {
 const outputEl = document.getElementById(`output-${index}`);
 try {
@@ -103,7 +111,7 @@ const leg2Side = document.querySelector(`input[name='side2-${index}']:checked`).
 const leg2Type = document.getElementById(`type2-${index}`).value;
 const fixInput = document.getElementById(`fixDate-${index}`);
 const dateFixRaw = fixInput.value;
-const dateFix = dateFixRaw ? formatDate(new Date(dateFixRaw)) : '';
+const dateFix = dateFixRaw ? formatDate(parseInputDate(dateFixRaw)) : '';
 fixInput.classList.remove('border-red-500');
 const useSamePPT = document.getElementById(`samePpt-${index}`).checked;
 const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
@@ -151,8 +159,6 @@ else input.value = input.defaultValue;
 document.getElementById(`output-${index}`).textContent = '';
 updateFinalOutput();
 syncLegSides(index);
-const disp = document.getElementById(`fixDisplay-${index}`);
-if (disp) disp.textContent = '';
 }
 
 function removeTrade(index) {
@@ -243,18 +249,6 @@ div.className = 'trade-block';
   });
   syncLegSides(index);
 
-  const fixInput = document.getElementById(`fixDate-${index}`);
-  const fixDisplay = document.getElementById(`fixDisplay-${index}`);
-  if (fixInput) {
-    fixInput.addEventListener('change', () => {
-      const formatted = fixInput.value ? formatDate(new Date(fixInput.value)) : '';
-      if (fixDisplay) fixDisplay.textContent = formatted;
-    });
-    if (fixInput.value) {
-      const formatted = formatDate(new Date(fixInput.value));
-      if (fixDisplay) fixDisplay.textContent = formatted;
-    }
-  }
   renumberTrades();
 }
 
