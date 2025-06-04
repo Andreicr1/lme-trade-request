@@ -272,6 +272,11 @@ navigator.serviceWorker.register("service-worker.js")
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { parseInputDate, getSecondBusinessDay, getFixPpt };
+  module.exports = {
+    parseInputDate,
+    getSecondBusinessDay,
+    getFixPpt,
+    generateRequest
+  };
 }
 
