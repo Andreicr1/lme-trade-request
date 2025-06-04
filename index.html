@@ -101,6 +101,7 @@
       });
       document.getElementById(`output-${index}`).textContent = '';
       updateFinalOutput();
+      syncLegSides(index);
     }
 
     function removeTrade(index) {
@@ -115,6 +116,21 @@
       const allOutputs = document.querySelectorAll("[id^='output-']");
       const finalOutput = Array.from(allOutputs).map(el => el.textContent.trim()).filter(t => t).join("\n");
       document.getElementById('final-output').value = finalOutput;
+    }
+
+    function syncLegSides(index) {
+      const selected = document.querySelector(`input[name='side1-${index}']:checked`);
+      if (!selected) return;
+      const leg2Options = document.querySelectorAll(`input[name='side2-${index}']`);
+      leg2Options.forEach(opt => {
+        opt.disabled = opt.value === selected.value;
+      });
+      const leg2Checked = document.querySelector(`input[name='side2-${index}']:checked`);
+      if (leg2Checked && leg2Checked.disabled) {
+        leg2Options.forEach(opt => {
+          if (!opt.disabled) opt.checked = true;
+        });
+      }
     }
 
     function copyAll() {
@@ -143,6 +159,10 @@
       div.className = 'trade-block';
       div.appendChild(clone);
       document.getElementById('trades').appendChild(div);
+      document.querySelectorAll(`input[name='side1-${index}']`).forEach(r => {
+        r.addEventListener('change', () => syncLegSides(index));
+      });
+      syncLegSides(index);
     }
 
     window.onload = () => addTrade();
