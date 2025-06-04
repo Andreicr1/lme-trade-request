@@ -36,10 +36,11 @@
 <body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen p-6">
   <div class="max-w-4xl mx-auto space-y-6">
     <h1 class="text-3xl font-bold mb-6 text-center">LME Trade Request Generator</h1>
-    <div id="trades" class="space-y-6"></div>
-      <div class="flex flex-wrap items-center gap-2 mt-4 justify-center">
-      <button onclick="addTrade()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-32">Add Trade</button>
-      <button onclick="copyAll()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-32">Copy All</button>
+    <div id="trades" class="space-y-6">
+      <div id="trade-controls" class="flex flex-wrap items-center gap-2 justify-center p-6">
+        <button onclick="addTrade()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-32">Add Trade</button>
+        <button onclick="copyAll()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-32">Copy All</button>
+      </div>
     </div>
     <textarea id="final-output" class="form-control mt-4 w-full" style="height: 10rem;" placeholder="All trade requests will appear here..."></textarea>
   </div>
