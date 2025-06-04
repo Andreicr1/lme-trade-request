@@ -219,34 +219,14 @@ div.className = 'trade-block';
   syncLegSides(index);
 
   const fixInput = document.getElementById(`fixDate-${index}`);
-  const fixInputDisplay = document.getElementById(`fixDateDisplay-${index}`);
   const fixDisplay = document.getElementById(`fixDisplay-${index}`);
-  if (fixInput && fixInputDisplay) {
-    const openPicker = () => {
-      if (fixInput.showPicker) {
-        fixInput.showPicker();
-      } else {
-        fixInput.focus();
-        fixInput.click();
-      }
-    };
-    fixInputDisplay.addEventListener('focus', openPicker);
-    fixInputDisplay.addEventListener('click', openPicker);
+  if (fixInput) {
     fixInput.addEventListener('change', () => {
       const formatted = fixInput.value ? formatDate(new Date(fixInput.value)) : '';
-      fixInputDisplay.value = formatted;
       if (fixDisplay) fixDisplay.textContent = formatted;
-    });
-    fixInputDisplay.addEventListener('input', () => {
-      const d = parseDate(fixInputDisplay.value);
-      if (d) {
-        fixInput.valueAsDate = d;
-        if (fixDisplay) fixDisplay.textContent = fixInputDisplay.value;
-      }
     });
     if (fixInput.value) {
       const formatted = formatDate(new Date(fixInput.value));
-      fixInputDisplay.value = formatted;
       if (fixDisplay) fixDisplay.textContent = formatted;
     }
   }
