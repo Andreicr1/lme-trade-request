@@ -16,13 +16,17 @@
       padding: 0.5rem;
       border-radius: 0.25rem;
     }
+    .justify-end { justify-content: flex-end; }
+    @media (min-width: 768px) {
+      .md\:justify-end { justify-content: flex-end; }
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen p-6">
   <div class="max-w-4xl mx-auto space-y-6">
     <h1 class="text-3xl font-bold mb-6 text-center">LME Trade Request Generator</h1>
     <div id="trades" class="space-y-6"></div>
-    <div class="flex flex-wrap items-center gap-2 mt-4 justify-center">
+    <div class="flex flex-wrap items-center gap-2 mt-4 justify-center md:justify-end">
       <button onclick="addTrade()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-32">Add Trade</button>
       <button onclick="copyAll()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-32">Copy All</button>
     </div>
@@ -78,7 +82,7 @@
           <label><input type="checkbox" id="samePpt-0" /> Use AVG PPT Date</label>
         </div>
       </div>
-      <div class="flex flex-wrap items-center gap-2 justify-center">
+      <div class="flex flex-wrap items-center gap-2 justify-center md:justify-end">
         <button name="generate" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-32">Generate</button>
         <button name="clear" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded w-32">Clear</button>
         <button name="remove" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded w-32">Remove</button>
