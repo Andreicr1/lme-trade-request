@@ -47,11 +47,11 @@ if (count < 2) date.setDate(date.getDate() + 1);
 return formatDate(date);
 }
 
-function getFixPpt(dateFix, year) {
+function getFixPpt(dateFix) {
   if (!dateFix) throw new Error('Please provide a fixing date.');
   const date = parseDate(dateFix);
   if (!date) throw new Error('Fixing date is invalid.');
-  const holidays = lmeHolidays[year] || [];
+  const holidays = lmeHolidays[date.getFullYear()] || [];
   let count = 0;
   while (count < 2) {
     date.setDate(date.getDate() + 1);
@@ -117,20 +117,29 @@ const useSamePPT = document.getElementById(`samePpt-${index}`).checked;
 const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
 const pptDateAVG = getSecondBusinessDay(year, monthIndex);
 
-let leg1 = `${capitalize(leg1Side)} ${q} mt Al ${leg1Type === 'AVG' ? `AVG ${month} ${year} Flat` : `USD ppt ${pptDateAVG}`}`;
+let leg1;
+if (leg1Type === 'AVG') {
+  leg1 = `${capitalize(leg1Side)} ${q} mt Al AVG ${month} ${year} Flat`;
+} else {
+  const pptFixLeg1 = getFixPpt(dateFix);
+  leg1 = `${capitalize(leg1Side)} ${q} mt Al Fix ppt ${pptFixLeg1}`;
+}
 let leg2;
 if (leg2Type === 'AVG') {
 const month2 = document.getElementById(`month2-${index}`).value;
 const year2 = parseInt(document.getElementById(`year2-${index}`).value);
 leg2 = `${capitalize(leg2Side)} ${q} mt Al AVG ${month2} ${year2} Flat`;
-} else {
+} else if (leg2Type === 'Fix') {
   let pptFix;
   if (useSamePPT) {
     pptFix = pptDateAVG;
   } else {
-    pptFix = getFixPpt(dateFix, year);
+    pptFix = getFixPpt(dateFix);
   }
   leg2 = `${capitalize(leg2Side)} ${q} mt Al USD ppt ${pptFix}`;
+} else {
+  const pptFix = getFixPpt(dateFix);
+  leg2 = `${capitalize(leg2Side)} ${q} mt Al CR2 ${dateFix} ppt ${pptFix}`;
 }
 
   const result = `LME Request: ${leg1} and ${leg2} against`;
