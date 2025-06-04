@@ -43,6 +43,15 @@ To update the embedded years manually, download the JSON file above, extract the
 - A modern browser that supports service workers.
 - Any local HTTP server (Python 3, Node.js, etc.) if you want to run it locally.
 
+## Running tests
+
+Install dependencies once and run the test suite with npm:
+
+```bash
+npm install
+npm test
+```
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).

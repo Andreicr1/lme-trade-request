@@ -1,6 +1,6 @@
-(function(global){
+(function(root){
   'use strict';
-  const solar = global.solarlunar;
+  const solar = root.solarlunar;
 
   function formatDateGregorian(date){
     const d = String(date.getDate()).padStart(2,'0');
@@ -52,7 +52,7 @@
     return type === 'chinese' ? parseDateChinese(str) : parseDateGregorian(str);
   }
 
-  global.calendarUtils = {
+  const utils = {
     formatDateGregorian,
     parseDateGregorian,
     formatDateChinese,
@@ -60,4 +60,10 @@
     formatDate,
     parseDate
   };
-})(this);
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = utils;
+  } else {
+    root.calendarUtils = utils;
+  }
+})(typeof globalThis !== 'undefined' ? globalThis : this);

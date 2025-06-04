@@ -268,3 +268,7 @@ navigator.serviceWorker.register("service-worker.js")
 .catch(err => console.error("Service Worker registration failed:", err));
 }
 
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { parseInputDate, getSecondBusinessDay, getFixPpt };
+}
+
