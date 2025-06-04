@@ -10,6 +10,20 @@ const y = String(date.getFullYear()).slice(-2);
 return `${d}-${m}-${y}`;
 }
 
+function parseDateEU(str) {
+  if (typeof str !== 'string') return null;
+  const match = str.trim().match(/^(\d{2})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+  const day = parseInt(match[1], 10);
+  const month = parseInt(match[2], 10) - 1;
+  const year = 2000 + parseInt(match[3], 10);
+  const d = new Date(year, month, day);
+  if (d.getFullYear() !== year || d.getMonth() !== month || d.getDate() !== day) {
+    return null;
+  }
+  return d;
+}
+
 function getSecondBusinessDay(year, month) {
 const holidays = lmeHolidays[year] || [];
 let date = new Date(year, month, 1);
@@ -25,8 +39,8 @@ return formatDateEU(date);
 
 function getFixPpt(dateFix, year) {
   if (!dateFix) throw new Error('Please provide a fixing date.');
-  const date = new Date(dateFix);
-  if (isNaN(date)) throw new Error('Fixing date is invalid.');
+  const date = parseDateEU(dateFix);
+  if (!date) throw new Error('Fixing date is invalid.');
   const holidays = lmeHolidays[year] || [];
   let count = 0;
   while (count < 2) {
@@ -71,7 +85,9 @@ const month = document.getElementById(`month1-${index}`).value;
 const year = parseInt(document.getElementById(`year1-${index}`).value);
 const leg2Side = document.querySelector(`input[name='side2-${index}']:checked`).value;
 const leg2Type = document.getElementById(`type2-${index}`).value;
-const dateFix = document.getElementById(`fixDate-${index}`).value;
+const fixInput = document.getElementById(`fixDate-${index}`);
+const dateFix = fixInput.value.trim();
+fixInput.classList.remove('border-red-500');
 const useSamePPT = document.getElementById(`samePpt-${index}`).checked;
 const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
 const pptDateAVG = getSecondBusinessDay(year, monthIndex);
@@ -83,16 +99,28 @@ const month2 = document.getElementById(`month2-${index}`).value;
 const year2 = parseInt(document.getElementById(`year2-${index}`).value);
 leg2 = `${capitalize(leg2Side)} ${q} mt Al AVG ${month2} ${year2} Flat`;
 } else {
-const pptFix = useSamePPT ? pptDateAVG : getFixPpt(dateFix, year);
-leg2 = `${capitalize(leg2Side)} ${q} mt Al USD ppt ${pptFix}`;
+  let pptFix;
+  if (useSamePPT) {
+    pptFix = pptDateAVG;
+  } else {
+    pptFix = getFixPpt(dateFix, year);
+  }
+  leg2 = `${capitalize(leg2Side)} ${q} mt Al USD ppt ${pptFix}`;
 }
 
-const result = `LME Request: ${leg1} and ${leg2} against`;
-if (outputEl) outputEl.textContent = result;
-updateFinalOutput();
+  const result = `LME Request: ${leg1} and ${leg2} against`;
+  if (outputEl) outputEl.textContent = result;
+  updateFinalOutput();
 } catch (e) {
-console.error("Error generating request:", e);
-if (outputEl) outputEl.textContent = e.message;
+  console.error("Error generating request:", e);
+  if (/Fixing date/.test(e.message)) {
+    const fixInput = document.getElementById(`fixDate-${index}`);
+    if (fixInput) {
+      fixInput.classList.add('border-red-500');
+      fixInput.focus();
+    }
+  }
+  if (outputEl) outputEl.textContent = e.message;
 }
 }
 
