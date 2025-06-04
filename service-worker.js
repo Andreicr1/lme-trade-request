@@ -1,8 +1,10 @@
-const CACHE_NAME = 'lme-cache-v2';
+const CACHE_NAME = 'lme-cache-v3';
 
 const FILES_TO_CACHE = [
   'index.html',
   'main.js',
+  'calendar-utils.js',
+  'solarlunar.min.js',
   'tailwind.min.css',
   'manifest.json',
   'service-worker.js'
