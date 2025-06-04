@@ -1,0 +1,1 @@
+self.addEventListener('install', e => { e.waitUntil(caches.open('lme-cache').then(cache => cache.addAll(['index.html']))); });
