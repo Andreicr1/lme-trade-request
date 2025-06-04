@@ -140,9 +140,6 @@ leg2 = `${capitalize(leg2Side)} ${q} mt Al AVG ${month2} ${year2} Flat`;
 } else if (leg2Type === 'C2R') {
   const pptFix = getFixPpt(dateFix);
   leg2 = `${capitalize(leg2Side)} ${q} mt Al C2R ${dateFix} ppt ${pptFix}`;
-} else {
-  const pptFix = getFixPpt(dateFix);
-  leg2 = `${capitalize(leg2Side)} ${q} mt Al CR2 ${dateFix} ppt ${pptFix}`;
 }
 
   const result = `LME Request: ${leg1} and ${leg2} against`;
