@@ -12,8 +12,9 @@
       font-family: 'Inter', sans-serif;
     }
     .form-control {
-      border: 1px solid #d1d5db; /* gray-300 */
+      height: 2.5rem;            /* ensures uniform input height */
       padding: 0.5rem;
+      border: 1px solid #d1d5db; /* gray-300 */
       border-radius: 0.25rem;
     }
   </style>
@@ -26,7 +27,7 @@
       <button onclick="addTrade()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-32">Add Trade</button>
       <button onclick="copyAll()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-32">Copy All</button>
     </div>
-    <textarea id="final-output" class="mt-4 w-full h-40 border border-gray-300 rounded p-3" placeholder="All trade requests will appear here..."></textarea>
+    <textarea id="final-output" class="form-control mt-4 w-full" style="height: 10rem;" placeholder="All trade requests will appear here..."></textarea>
   </div>
 
   <template id="trade-template">
