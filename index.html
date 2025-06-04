@@ -44,7 +44,7 @@
       try {
         const q = document.getElementById(`qty-${index}`).value;
         const leg1Side = document.querySelector(`input[name='side1-${index}']:checked`).value;
-        const leg1Type = document.getElementById(`type1-${index}`).value;
+        const leg1Type = 'AVG'; // Leg 1 is fixed as AVG
         const month = document.getElementById(`month1-${index}`).value;
         const year = parseInt(document.getElementById(`year1-${index}`).value);
         const leg2Side = document.querySelector(`input[name='side2-${index}']:checked`).value;
