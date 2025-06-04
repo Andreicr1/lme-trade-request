@@ -25,6 +25,8 @@ No build step is required. The repository only contains static files (`index.htm
 
 `service-worker.js` caches the essential files (`index.html`, `main.js`, `tailwind.min.css` and the service worker itself) when the app is installed. This lets the app continue working offline after the first visit.
 
+If you update the service worker (for example when the cache name changes), refresh the site in your browser so the new worker can take control and clear the previous cache.
+
 ## Prerequisites
 
 - A modern browser that supports service workers.
