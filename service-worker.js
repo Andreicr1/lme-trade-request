@@ -3,6 +3,7 @@ const CACHE_NAME = 'lme-cache';
 const FILES_TO_CACHE = [
   '/',
   'index.html',
+  'main.js',
   'manifest.json',
   'service-worker.js',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap',
