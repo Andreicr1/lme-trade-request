@@ -1,6 +1,7 @@
 # LME Trade Request Generator
 
 This repository contains a small web application that helps build standardized text for London Metal Exchange (LME) trade requests. It is a single page built with HTML and Tailwind CSS.
+Tailwind is bundled locally as `tailwind.min.css`, so the interface works without a network connection after the first visit.
 
 ## Running the app
 
@@ -22,7 +23,7 @@ No build step is required. The repository only contains static files (`index.htm
 
 ## Service worker
 
-`service-worker.js` caches `index.html` when the app is installed. This allows the app to continue working when offline after the first visit.
+`service-worker.js` caches the essential files (`index.html`, `main.js`, `tailwind.min.css` and the service worker itself) when the app is installed. This lets the app continue working offline after the first visit.
 
 ## Prerequisites
 
