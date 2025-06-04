@@ -28,3 +28,7 @@ No build step is required. The repository only contains static files (`index.htm
 
 - A modern browser that supports service workers.
 - Any local HTTP server (Python 3, Node.js, etc.) if you want to run it locally.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
