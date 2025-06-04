@@ -138,7 +138,12 @@
 
     function copyAll() {
       const text = document.getElementById('final-output').value;
-      navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard'));
+      navigator.clipboard.writeText(text)
+        .then(() => alert('Copied to clipboard'))
+        .catch(err => {
+          console.error('Clipboard write failed:', err);
+          alert('Failed to copy to clipboard');
+        });
     }
 
     function addTrade() {
