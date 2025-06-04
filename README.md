@@ -17,7 +17,7 @@ After the server starts, open `http://localhost:8000/index.html` in a modern bro
 
 ## Building
 
-No build step is required. The repository only contains static files (`index.html`, `manifest.json` and `service-worker.js`). If you modify the code you simply refresh the browser to see the changes.
+No build step is required. The repository only contains static files (`index.html`, `main.js`, `manifest.json` and `service-worker.js`). If you modify the code you simply refresh the browser to see the changes.
 
 ## Service worker
 
