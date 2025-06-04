@@ -40,6 +40,19 @@ function getFixPpt(dateFix, year) {
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
+function populateYearOptions(selectId, start, count) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  select.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const year = start + i;
+    const opt = document.createElement('option');
+    opt.value = year;
+    opt.textContent = year;
+    select.appendChild(opt);
+  }
+}
+
 function generateRequest(index) {
 const outputEl = document.getElementById(`output-${index}`);
 try {
@@ -148,9 +161,12 @@ clone.querySelector("button[name='remove']").setAttribute('onclick', `removeTrad
 const div = document.createElement('div');
 div.id = `trade-${index}`;
 div.className = 'trade-block';
-div.appendChild(clone);
-document.getElementById('trades').appendChild(div);
-document.querySelectorAll(`input[name='side1-${index}']`).forEach(r => {
+  div.appendChild(clone);
+  document.getElementById('trades').appendChild(div);
+  const currentYear = new Date().getFullYear();
+  populateYearOptions(`year1-${index}`, currentYear, 3);
+  populateYearOptions(`year2-${index}`, currentYear, 3);
+  document.querySelectorAll(`input[name='side1-${index}']`).forEach(r => {
 r.addEventListener('change', () => syncLegSides(index));
 });
 syncLegSides(index);
