@@ -12,7 +12,7 @@ return `${d}-${m}-${y}`;
 
 function getSecondBusinessDay(year, month) {
 const holidays = lmeHolidays[year] || [];
-let date = new Date(year, month + 1, 1);
+let date = new Date(year, month, 1);
 let count = 0;
 while (count < 2) {
 const isoDate = date.toISOString().split('T')[0];
