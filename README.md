@@ -40,6 +40,8 @@ The worker uses a `CACHE_VERSION` constant to build a cache name (`lme-cache-v<v
 
 After increasing `CACHE_VERSION`, refresh the site so the new worker can take control and clear the previous cache.
 
+### Icons
+`manifest.json` references icons stored in `images/`. These PNG files are cached by the service worker and managed via Git LFS.
 ## Holiday data
 
 `main.js` includes UK bank holiday dates for 2025 and 2026. When the page loads it also fetches current dates from the [GOV.UK Bank Holidays API](https://www.gov.uk/bank-holidays.json) and merges them with the built‑in list. This allows the app to work with future years while still functioning offline.

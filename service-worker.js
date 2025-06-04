@@ -1,5 +1,5 @@
 // Update this version when releasing a new build so clients refresh cached files
-const CACHE_VERSION = 5;
+const CACHE_VERSION = 6;
 const CACHE_NAME = `lme-cache-v${CACHE_VERSION}`;
 
 const FILES_TO_CACHE = [
@@ -9,6 +9,9 @@ const FILES_TO_CACHE = [
   'solarlunar.min.js',
   'tailwind.min.css',
   'manifest.json',
+  
+  'images/icon-192.png',
+  'images/icon-512.png',
   'service-worker.js'
 ];
 
