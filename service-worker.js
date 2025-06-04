@@ -4,9 +4,7 @@ const FILES_TO_CACHE = [
   'index.html',
   'main.js',
   'manifest.json',
-  'service-worker.js',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap',
-  'https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css'
+  'service-worker.js'
 ];
 
 self.addEventListener('install', event => {
