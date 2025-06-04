@@ -24,25 +24,27 @@ return formatDateEU(date);
 }
 
 function getFixPpt(dateFix, year) {
-const holidays = lmeHolidays[year] || [];
-let date = new Date(dateFix);
-let count = 0;
-while (count < 2) {
-date.setDate(date.getDate() + 1);
-const isoDate = date.toISOString().split('T')[0];
-const day = date.getDay();
-if (day !== 0 && day !== 6 && !holidays.includes(isoDate)) count++;
-}
-return formatDateEU(date);
+  if (!dateFix) throw new Error('Please provide a fixing date.');
+  const date = new Date(dateFix);
+  if (isNaN(date)) throw new Error('Fixing date is invalid.');
+  const holidays = lmeHolidays[year] || [];
+  let count = 0;
+  while (count < 2) {
+    date.setDate(date.getDate() + 1);
+    const isoDate = date.toISOString().split('T')[0];
+    const day = date.getDay();
+    if (day !== 0 && day !== 6 && !holidays.includes(isoDate)) count++;
+  }
+  return formatDateEU(date);
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 function generateRequest(index) {
+const outputEl = document.getElementById(`output-${index}`);
 try {
 const qtyInput = document.getElementById(`qty-${index}`);
 const q = parseFloat(qtyInput.value);
-const outputEl = document.getElementById(`output-${index}`);
 if (!isFinite(q)) {
 qtyInput.classList.add('border-red-500');
 if (outputEl) outputEl.textContent = 'Please enter a valid quantity.';
@@ -79,6 +81,7 @@ const finalOutput = document.getElementById('final-output');
 if (!finalOutput.value.includes(result)) finalOutput.value += result + "\n";
 } catch (e) {
 console.error("Error generating request:", e);
+if (outputEl) outputEl.textContent = e.message;
 }
 }
 
