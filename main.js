@@ -237,9 +237,8 @@ div.id = `trade-${index}`;
 div.className = 'trade-block';
   div.appendChild(clone);
   const trades = document.getElementById('trades');
-  const controls = document.getElementById('trade-controls');
   if (trades) {
-    if (controls) trades.insertBefore(div, controls); else trades.appendChild(div);
+    trades.appendChild(div);
   }
   const currentYear = new Date().getFullYear();
   populateYearOptions(`year1-${index}`, currentYear, 3);
