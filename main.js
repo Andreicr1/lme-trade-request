@@ -167,6 +167,8 @@ clone.querySelectorAll('[name]:not([id])').forEach(el => {
 el.name = el.name.replace(/-\d+$/, `-${index}`);
 });
 clone.querySelector("[id^='output-']").id = `output-${index}`;
+ const title = clone.querySelector('.trade-title');
+ if (title) title.textContent = `Trade ${index + 1}`;
 clone.querySelector("button[name='generate']").setAttribute('onclick', `generateRequest(${index})`);
 clone.querySelector("button[name='clear']").setAttribute('onclick', `clearTrade(${index})`);
 clone.querySelector("button[name='remove']").setAttribute('onclick', `removeTrade(${index})`);
