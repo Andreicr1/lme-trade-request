@@ -147,7 +147,14 @@ const trade = document.getElementById(`trade-${index}`);
 if (trade) {
 trade.remove();
 updateFinalOutput();
+ renumberTrades();
 }
+}
+
+function renumberTrades() {
+  document.querySelectorAll('.trade-title').forEach((el, i) => {
+    el.textContent = `Trade ${i + 1}`;
+  });
 }
 
 function updateFinalOutput() {
@@ -242,6 +249,7 @@ div.className = 'trade-block';
       fixDisplay.textContent = formatDateEU(new Date(fixInput.value));
     }
   }
+  renumberTrades();
 }
 
 window.onload = () => addTrade();
