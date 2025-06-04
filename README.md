@@ -14,6 +14,7 @@ npx http-server -p 8000
 ```
 
 After the server starts, open `http://localhost:8000/index.html` in a modern browser.
+Make sure to visit the full path to `index.html` (not just `/`) because the service worker only caches that file.
 
 ## Building
 

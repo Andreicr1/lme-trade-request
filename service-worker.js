@@ -1,7 +1,6 @@
 const CACHE_NAME = 'lme-cache';
 
 const FILES_TO_CACHE = [
-  '/',
   'index.html',
   'main.js',
   'manifest.json',
