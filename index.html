@@ -15,9 +15,9 @@
   <div class="max-w-4xl mx-auto space-y-6">
     <h1 class="text-3xl font-bold mb-6 text-center">LME Trade Request Generator</h1>
     <div id="trades" class="space-y-6"></div>
-    <div class="flex items-center gap-2 mt-4">
-      <button onclick="addTrade()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Add Trade</button>
-      <button onclick="copyAll()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Copy All</button>
+    <div class="flex flex-wrap items-center gap-2 mt-4 justify-center">
+      <button onclick="addTrade()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-32">Add Trade</button>
+      <button onclick="copyAll()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-32">Copy All</button>
     </div>
     <textarea id="final-output" class="mt-4 w-full h-40 border border-gray-300 rounded p-3" placeholder="All trade requests will appear here..."></textarea>
   </div>
@@ -76,9 +76,9 @@
         </div>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <button name="generate" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Generate</button>
-        <button name="clear" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">Clear</button>
-        <button name="remove" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Remove</button>
+        <button name="generate" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-32">Generate</button>
+        <button name="clear" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded w-32">Clear</button>
+        <button name="remove" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded w-32">Remove</button>
       </div>
       <p id="output-0" class="mt-2 font-mono text-sm"></p>
     </div>
