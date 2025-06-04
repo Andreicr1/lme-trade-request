@@ -3,6 +3,21 @@ const lmeHolidays = {
 2026: ["2026-01-01", "2026-04-03", "2026-04-06", "2026-05-04", "2026-05-25", "2026-08-31", "2026-12-25", "2026-12-26"]
 };
 
+async function loadHolidayData() {
+  try {
+    const res = await fetch('https://www.gov.uk/bank-holidays.json');
+    const data = await res.json();
+    const events = data['england-and-wales'].events;
+    events.forEach(({date}) => {
+      const year = date.slice(0, 4);
+      if (!lmeHolidays[year]) lmeHolidays[year] = [];
+      if (!lmeHolidays[year].includes(date)) lmeHolidays[year].push(date);
+    });
+  } catch (err) {
+    console.error('Failed to load holiday data:', err);
+  }
+}
+
 // Keeps track of the next trade index to ensure unique IDs
 let nextIndex = 0;
 
@@ -237,7 +252,9 @@ div.className = 'trade-block';
   renumberTrades();
 }
 
-window.onload = () => addTrade();
+window.onload = () => {
+  loadHolidayData().finally(() => addTrade());
+};
 if ('serviceWorker' in navigator) {
 navigator.serviceWorker.register("service-worker.js")
 .catch(err => console.error("Service Worker registration failed:", err));

@@ -27,6 +27,12 @@ No build step is required. The repository only contains static files (`index.htm
 
 If you update the service worker (for example when the cache name changes), refresh the site in your browser so the new worker can take control and clear the previous cache.
 
+## Holiday data
+
+`main.js` includes UK bank holiday dates for 2025 and 2026. When the page loads it also fetches current dates from the [GOV.UK Bank Holidays API](https://www.gov.uk/bank-holidays.json) and merges them with the built‑in list. This allows the app to work with future years while still functioning offline.
+
+To update the embedded years manually, download the JSON file above, extract the dates for the required year and append them to the `lmeHolidays` object in `main.js`.
+
 ## Prerequisites
 
 - A modern browser that supports service workers.
