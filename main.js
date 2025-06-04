@@ -6,25 +6,17 @@ const lmeHolidays = {
 // Keeps track of the next trade index to ensure unique IDs
 let nextIndex = 0;
 
-function formatDateEU(date) {
-const d = String(date.getDate()).padStart(2, '0');
-const m = String(date.getMonth() + 1).padStart(2, '0');
-const y = String(date.getFullYear()).slice(-2);
-return `${d}-${m}-${y}`;
+function getCalendarType() {
+  const sel = document.getElementById('calendarType');
+  return sel ? sel.value : 'gregorian';
 }
 
-function parseDateEU(str) {
-  if (typeof str !== 'string') return null;
-  const match = str.trim().match(/^(\d{2})-(\d{2})-(\d{2})$/);
-  if (!match) return null;
-  const day = parseInt(match[1], 10);
-  const month = parseInt(match[2], 10) - 1;
-  const year = 2000 + parseInt(match[3], 10);
-  const d = new Date(year, month, day);
-  if (d.getFullYear() !== year || d.getMonth() !== month || d.getDate() !== day) {
-    return null;
-  }
-  return d;
+function formatDate(date) {
+  return calendarUtils.formatDate(date, getCalendarType());
+}
+
+function parseDate(str) {
+  return calendarUtils.parseDate(str, getCalendarType());
 }
 
 function getSecondBusinessDay(year, month) {
@@ -37,12 +29,12 @@ const day = date.getDay();
 if (day !== 0 && day !== 6 && !holidays.includes(isoDate)) count++;
 if (count < 2) date.setDate(date.getDate() + 1);
 }
-return formatDateEU(date);
+return formatDate(date);
 }
 
 function getFixPpt(dateFix, year) {
   if (!dateFix) throw new Error('Please provide a fixing date.');
-  const date = parseDateEU(dateFix);
+  const date = parseDate(dateFix);
   if (!date) throw new Error('Fixing date is invalid.');
   const holidays = lmeHolidays[year] || [];
   let count = 0;
@@ -52,7 +44,7 @@ function getFixPpt(dateFix, year) {
     const day = date.getDay();
     if (day !== 0 && day !== 6 && !holidays.includes(isoDate)) count++;
   }
-  return formatDateEU(date);
+  return formatDate(date);
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -90,7 +82,7 @@ const leg2Side = document.querySelector(`input[name='side2-${index}']:checked`).
 const leg2Type = document.getElementById(`type2-${index}`).value;
 const fixInput = document.getElementById(`fixDate-${index}`);
 const dateFixRaw = fixInput.value;
-const dateFix = dateFixRaw ? formatDateEU(new Date(dateFixRaw)) : '';
+const dateFix = dateFixRaw ? formatDate(new Date(dateFixRaw)) : '';
 fixInput.classList.remove('border-red-500');
 const useSamePPT = document.getElementById(`samePpt-${index}`).checked;
 const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
@@ -243,10 +235,10 @@ div.className = 'trade-block';
   }
   if (fixInput && fixDisplay) {
     fixInput.addEventListener('change', () => {
-      fixDisplay.textContent = fixInput.value ? formatDateEU(new Date(fixInput.value)) : '';
+      fixDisplay.textContent = fixInput.value ? formatDate(new Date(fixInput.value)) : '';
     });
     if (fixInput.value) {
-      fixDisplay.textContent = formatDateEU(new Date(fixInput.value));
+      fixDisplay.textContent = formatDate(new Date(fixInput.value));
     }
   }
   renumberTrades();
