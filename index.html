@@ -126,11 +126,14 @@
       const index = document.querySelectorAll('.trade-block').length;
       const template = document.getElementById('trade-template');
       const clone = template.content.cloneNode(true);
-     clone.querySelectorAll('[id]').forEach(el => {
-  const baseId = el.id.replace(/-\d+$/, '');
-  el.id = `${baseId}-${index}`;
-  if (el.name) el.name = el.name.replace(/-\d+$/, `-${index}`);
-});
+      clone.querySelectorAll('[id]').forEach(el => {
+        const baseId = el.id.replace(/-\d+$/, '');
+        el.id = `${baseId}-${index}`;
+        if (el.name) el.name = el.name.replace(/-\d+$/, `-${index}`);
+      });
+      clone.querySelectorAll('[name]:not([id])').forEach(el => {
+        el.name = el.name.replace(/-\d+$/, `-${index}`);
+      });
       clone.querySelector("[id^='output-']").id = `output-${index}`;
       clone.querySelector("button[name='generate']").setAttribute('onclick', `generateRequest(${index})`);
       clone.querySelector("button[name='clear']").setAttribute('onclick', `clearTrade(${index})`);
