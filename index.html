@@ -12,6 +12,13 @@
       2026: ["2026-01-01", "2026-04-03", "2026-04-06", "2026-05-04", "2026-05-25", "2026-08-31", "2026-12-25"]
     };
 
+    function formatDateEU(date) {
+      const d = String(date.getDate()).padStart(2, '0');
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const y = String(date.getFullYear()).slice(-2);
+      return `${d}-${m}-${y}`;
+    }
+
     function getSecondBusinessDay(year, month) {
       const holidays = lmeHolidays[year] || [];
       let date = new Date(year, month + 1, 1);
@@ -22,7 +29,7 @@
         if (day !== 0 && day !== 6 && !holidays.includes(isoDate)) count++;
         if (count < 2) date.setDate(date.getDate() + 1);
       }
-      return date.toISOString().split('T')[0];
+      return formatDateEU(date);
     }
 
     function getFixPpt(dateFix, year) {
@@ -35,7 +42,7 @@
         const day = date.getDay();
         if (day !== 0 && day !== 6 && !holidays.includes(isoDate)) count++;
       }
-      return date.toISOString().split('T')[0];
+      return formatDateEU(date);
     }
 
     function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
