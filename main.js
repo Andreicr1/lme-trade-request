@@ -124,9 +124,21 @@ if (!opt.disabled) opt.checked = true;
 }
 }
 
-function copyAll() {
-const text = document.getElementById('final-output').value;
-navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard'));
+async function copyAll() {
+  const textarea = document.getElementById('final-output');
+  const text = textarea.value.trim();
+  if (!text) {
+    alert('Nothing to copy.');
+    textarea.focus();
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    alert('Copied to clipboard');
+  } catch (err) {
+    console.error('Failed to copy text:', err);
+    alert('Failed to copy text');
+  }
 }
 
 function addTrade() {
