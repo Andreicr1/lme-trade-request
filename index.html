@@ -141,6 +141,23 @@
       navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard'));
     }
 
+    function populateYearSelects(index) {
+      const currentYear = new Date().getFullYear();
+      const yearsAhead = 5;
+      [1, 2].forEach(num => {
+        const select = document.getElementById(`year${num}-${index}`);
+        if (!select) return;
+        select.innerHTML = '';
+        for (let i = 0; i <= yearsAhead; i++) {
+          const y = currentYear + i;
+          const opt = document.createElement('option');
+          opt.value = y;
+          opt.textContent = y;
+          select.appendChild(opt);
+        }
+      });
+    }
+
     function addTrade() {
       const index = document.querySelectorAll('.trade-block').length;
       const template = document.getElementById('trade-template');
@@ -162,6 +179,7 @@
       div.className = 'trade-block';
       div.appendChild(clone);
       document.getElementById('trades').appendChild(div);
+      populateYearSelects(index);
       document.querySelectorAll(`input[name='side1-${index}']`).forEach(r => {
         r.addEventListener('change', () => syncLegSides(index));
       });
@@ -201,9 +219,7 @@
             </select>
           </label>
           <label>Year:
-            <select id="year1-0" class="border border-gray-300 rounded p-2 w-full">
-              <option>2025</option><option>2026</option>
-            </select>
+            <select id="year1-0" class="border border-gray-300 rounded p-2 w-full"></select>
           </label>
         </div>
         <div>
@@ -224,9 +240,7 @@
             </select>
           </label>
           <label>Year:
-            <select id="year2-0" class="border border-gray-300 rounded p-2 w-full">
-              <option>2025</option><option>2026</option>
-            </select>
+            <select id="year2-0" class="border border-gray-300 rounded p-2 w-full"></select>
           </label>
           <label>Fixing Date: <input type="date" id="fixDate-0" class="border border-gray-300 rounded p-2" /></label>
           <label><input type="checkbox" id="samePpt-0" /> Use AVG PPT Date</label>
