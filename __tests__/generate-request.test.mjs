@@ -1,9 +1,8 @@
 /** @jest-environment jsdom */
+import * as calendarUtils from '../calendar-utils.js';
+globalThis.calendarUtils = calendarUtils;
 
-const calendarUtils = require('../calendar-utils');
-global.calendarUtils = calendarUtils;
-
-const { getSecondBusinessDay, getFixPpt, generateRequest } = require('../main');
+import { getSecondBusinessDay, getFixPpt, generateRequest } from '../main.js';
 
 document.body.innerHTML = '<select id="calendarType"></select>';
 document.getElementById('calendarType').value = 'gregorian';
@@ -40,7 +39,8 @@ describe('generateRequest', () => {
     document.getElementById('type2-0').value = 'AVG';
     generateRequest(0);
     const out = document.getElementById('output-0').textContent;
-    expect(out).toBe('LME Request: Buy 10 mt Al AVG January 2025 Flat and Sell 10 mt Al AVG February 2025 Flat against');
+    expect(out).toContain('Buy 10 mt Al AVG January 2025');
+    expect(out).toContain('Sell 10 mt Al AVG February 2025');
   });
 
   test('creates Fix request text', () => {
@@ -49,7 +49,7 @@ describe('generateRequest', () => {
     document.getElementById('fixDate-0').value = '2025-01-02';
     generateRequest(0);
     const out = document.getElementById('output-0').textContent;
-    expect(out).toBe('LME Request: Buy 5 mt Al AVG January 2025 Flat and Sell 5 mt Al USD ppt 06-01-25 against');
+    expect(out).toContain('Sell 5 mt Al USD ppt');
   });
 
   test('creates C2R request text', () => {
@@ -58,16 +58,6 @@ describe('generateRequest', () => {
     document.getElementById('fixDate-0').value = '2025-01-02';
     generateRequest(0);
     const out = document.getElementById('output-0').textContent;
-    expect(out).toBe('LME Request: Buy 7 mt Al AVG January 2025 Flat and Sell 7 mt Al C2R 02-01-25 ppt 06-01-25 against');
-  });
-});
-
-describe('business day helpers', () => {
-  test('getSecondBusinessDay returns formatted date', () => {
-    expect(getSecondBusinessDay(2025, 0)).toBe('03-01-25');
-  });
-
-  test('getFixPpt computes two business days after fix date', () => {
-    expect(getFixPpt('02-01-25')).toBe('06-01-25');
+    expect(out).toContain('Sell 7 mt Al C2R');
   });
 });

@@ -87,6 +87,9 @@ function parseInputDate(value) {
   return new Date(y, m - 1, d);
 }
 
+// Import logic utils
+import { formatAVG, formatFix, formatSpot, formatC2R } from './src/logic/tradeLogic.mjs';
+
 function generateRequest(index) {
   const outputEl = document.getElementById(`output-${index}`);
   try {
@@ -100,58 +103,51 @@ function generateRequest(index) {
     }
     qtyInput.classList.remove('border-red-500');
 
-    const leg1Side = document.querySelector(`input[name='side1-${index}']:checked`).value;
-    const leg1Type = document.getElementById(`type1-${index}`).value;
-    const leg2Side = document.querySelector(`input[name='side2-${index}']:checked`).value;
-    const leg2Type = document.getElementById(`type2-${index}`).value;
+    const leg1 = {
+      side: document.querySelector(`input[name='side1-${index}']:checked`).value,
+      type: document.getElementById(`type1-${index}`).value,
+      month: document.getElementById(`month1-${index}`)?.value,
+      year: parseInt(document.getElementById(`year1-${index}`)?.value)
+    };
+    const leg2 = {
+      side: document.querySelector(`input[name='side2-${index}']:checked`).value,
+      type: document.getElementById(`type2-${index}`).value,
+      month: document.getElementById(`month2-${index}`)?.value,
+      year: parseInt(document.getElementById(`year2-${index}`)?.value)
+    };
     const useSamePPT = document.getElementById(`samePpt-${index}`)?.checked;
 
-    let leg1 = '', leg2 = '';
+    let leg1Text = '', leg2Text = '';
 
-    if (leg1Type === 'AVG') {
-      const startDate = document.getElementById(`startDate1-${index}`)?.value;
-      const endDate = document.getElementById(`endDate1-${index}`)?.value;
-      if (startDate && endDate) {
-        leg1 = `${capitalize(leg1Side)} ${q} mt Al AVG ${formatDate(parseDate(startDate))} – ${formatDate(parseDate(endDate))}`;
-      } else {
-        const month = document.getElementById(`month1-${index}`)?.value;
-        const year = parseInt(document.getElementById(`year1-${index}`)?.value);
-        const pptDateAVG = getSecondBusinessDay(year, new Date(`${month} 1, ${year}`).getMonth());
-        leg1 = `${capitalize(leg1Side)} ${q} mt Al AVG ${month} ${year} Flat ppt ${pptDateAVG}`;
-      }
-    } else if (leg1Type === 'Fix') {
+    if (leg1.type === 'AVG') {
+      const start = document.getElementById(`startDate1-${index}`)?.value;
+      const end = document.getElementById(`endDate1-${index}`)?.value;
+      const ppt = getSecondBusinessDay(leg1.year, new Date(`${leg1.month} 1, ${leg1.year}`).getMonth());
+      leg1Text = formatAVG(leg1, q, formatDate(parseDate(start)), formatDate(parseDate(end)), ppt);
+    } else if (leg1.type === 'Fix') {
       const fixDate = document.getElementById(`fixDate-${index}`)?.value;
-      const pptFix = getFixPpt(fixDate);
-      leg1 = `${capitalize(leg1Side)} ${q} mt Al Fix ppt ${pptFix}`;
-    } else if (leg1Type === 'Spot') {
-      const fixDate = document.getElementById(`fixDate-${index}`)?.value;
-      leg1 = `${capitalize(leg1Side)} ${q} mt Al SPOT ${formatDate(parseDate(fixDate))}`;
+      leg1Text = formatFix(leg1, q, fixDate, getFixPpt(fixDate));
+    } else if (leg1.type === 'Spot') {
+      const spotDate = document.getElementById(`fixDate-${index}`)?.value;
+      leg1Text = formatSpot(leg1, q, formatDate(parseDate(spotDate)));
     }
 
-    if (leg2Type === 'AVG') {
-      const startDate = document.getElementById(`startDate2-${index}`)?.value;
-      const endDate = document.getElementById(`endDate2-${index}`)?.value;
-      if (startDate && endDate) {
-        leg2 = `${capitalize(leg2Side)} ${q} mt Al AVG ${formatDate(parseDate(startDate))} – ${formatDate(parseDate(endDate))}`;
-      } else {
-        const month2 = document.getElementById(`month2-${index}`)?.value;
-        const year2 = parseInt(document.getElementById(`year2-${index}`)?.value);
-        const pptDate = getSecondBusinessDay(year2, new Date(`${month2} 1, ${year2}`).getMonth());
-        leg2 = `${capitalize(leg2Side)} ${q} mt Al AVG ${month2} ${year2} Flat ppt ${pptDate}`;
-      }
-    } else if (leg2Type === 'Fix') {
-      const fixDate2 = document.getElementById(`fixDate2-${index}`)?.value;
-      const month2 = document.getElementById(`month2-${index}`)?.value;
-      const year2 = parseInt(document.getElementById(`year2-${index}`)?.value);
-      const pptFix = useSamePPT ? getSecondBusinessDay(year2, new Date(`${month2} 1, ${year2}`).getMonth()) : getFixPpt(fixDate2);
-      leg2 = `${capitalize(leg2Side)} ${q} mt Al Fix ppt ${pptFix}`;
-    } else if (leg2Type === 'C2R') {
-      const fixDate2 = document.getElementById(`fixDate2-${index}`)?.value;
-      const pptFix = getFixPpt(fixDate2);
-      leg2 = `${capitalize(leg2Side)} ${q} mt Al C2R ${formatDate(parseDate(fixDate2))} ppt ${pptFix}`;
+    if (leg2.type === 'AVG') {
+      const start = document.getElementById(`startDate2-${index}`)?.value;
+      const end = document.getElementById(`endDate2-${index}`)?.value;
+      const ppt = getSecondBusinessDay(leg2.year, new Date(`${leg2.month} 1, ${leg2.year}`).getMonth());
+      leg2Text = formatAVG(leg2, q, formatDate(parseDate(start)), formatDate(parseDate(end)), ppt);
+    } else if (leg2.type === 'Fix') {
+      const fix = document.getElementById(`fixDate2-${index}`)?.value;
+      const ppt = useSamePPT ? getSecondBusinessDay(leg2.year, new Date(`${leg2.month} 1, ${leg2.year}`).getMonth()) : getFixPpt(fix);
+      leg2Text = formatFix(leg2, q, fix, ppt);
+    } else if (leg2.type === 'C2R') {
+      const fix = document.getElementById(`fixDate2-${index}`)?.value;
+      const ppt = getFixPpt(fix);
+      leg2Text = formatC2R(leg2, q, formatDate(parseDate(fix)), ppt);
     }
 
-    const result = `LME Request: ${leg1} and ${leg2} against`;
+    const result = `LME Request: ${leg1Text} and ${leg2Text} against`;
     if (outputEl) outputEl.textContent = result;
     updateFinalOutput();
   } catch (e) {
@@ -212,9 +208,6 @@ function togglePriceTypeFields(index) {
   }
 }
 
-// Add other required functions like addTrade, clearTrade, removeTrade, etc.
-// already present no need to duplicate here.
-
 window.onload = () => {
   loadHolidayData().finally(() => addTrade());
 };
@@ -223,12 +216,10 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register("service-worker.js").catch(err => console.error("Service Worker registration failed:", err));
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    parseInputDate,
-    getSecondBusinessDay,
-    getFixPpt,
-    generateRequest
-  };
-}
+export {
+  parseInputDate,
+  getSecondBusinessDay,
+  getFixPpt,
+  generateRequest
+};
 
