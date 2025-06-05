@@ -1,19 +1,11 @@
 {
-  "name": "lme-trade-request",
-  "version": "1.0.0",
-  "description": "LME Trade Request Generator",
-  "main": "main.js",
+  "type": "module",
   "scripts": {
-    "test": "jest",
-    "start": "npx http-server -p 8000"
+    "test": "jest"
   },
   "devDependencies": {
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^30.0.0-beta.3"
-  },
-  "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
   }
 }
 
