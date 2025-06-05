@@ -1,0 +1,13 @@
+<!-- Leg 1 -->
+<select id="priceTypeLeg1">
+    <option value="AVG">AVG</option>
+    <option value="Fix">Fix</option>
+    <option value="Spot">Spot</option>
+</select>
+
+<!-- Leg 2 -->
+<div id="leg2-container">
+    <input type="radio" id="leg2-buy" name="leg2" value="Buy"> Buy
+    <input type="radio" id="leg2-sell" name="leg2" value="Sell"> Sell
+    <!-- Outros campos da Leg 2 -->
+</div>
